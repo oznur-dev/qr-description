@@ -1,8 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+import tr from './data/tr.json';
+import en from './data/en.json';
+import ru from './data/ru.json';
 
 type Language = 'tr' | 'en' | 'ru' | null;
+
+const content: Record<NonNullable<Language>, string> = { tr, en, ru };
+const backButtonLabel: Record<NonNullable<Language>, string> = { tr: 'Geri', en: 'Back', ru: 'Назад' };
 
 export default function Home() {
   const [selectedLang, setSelectedLang] = useState<Language>(null);
@@ -13,14 +19,18 @@ export default function Home() {
 
   if (selectedLang) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-zinc-100 px-6">
-      <div className="flex flex-col gap-4 w-full max-w-sm">
-        <h1 className="text-2xl font-bold text-center">
-          {selectedLang === 'tr' && 'Seçilen Dil: Türkçe'}
-          {selectedLang === 'en' && 'Selected Language: English'}
-          {selectedLang === 'ru' && 'Выбранный язык: Русский'}
-        </h1>
-      </div>
+      <div className="min-h-screen bg-zinc-100 px-6 py-10">
+        <div className="flex flex-col gap-4 w-full max-w-2xl mx-auto">
+          <button
+            onClick={() => setSelectedLang(null)}
+            className="self-start text-sm font-medium text-zinc-500 hover:text-zinc-800 transition-colors"
+          >
+            ← {backButtonLabel[selectedLang]}
+          </button>
+          <div className="bg-white rounded-xl shadow-lg p-6 whitespace-pre-line leading-relaxed text-zinc-800">
+            {content[selectedLang]}
+          </div>
+        </div>
       </div>
     );
   }
